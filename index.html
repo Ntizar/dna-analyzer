@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DNA Analyzer — Analiza tu ADN crudo (privado, en tu navegador)</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🧬 DNA Analyzer</h1>
+    <p class="tag">Analiza tu ADN crudo <b>100% en tu navegador</b>. Nada se sube ni se guarda: todo ocurre en tu máquina.</p>
+  </header>
+
+  <section class="privacy">
+    <span>🔒 <b>Privacidad total.</b> Tu fichero se procesa localmente. No hay servidor, ni subida, ni almacenamiento.</span>
+  </section>
+
+  <section id="drop" class="drop">
+    <p class="drop-title">Arrastra aquí tu fichero</p>
+    <p class="drop-sub">MyHeritage / 23andMe / Ancestry — .zip o .csv</p>
+    <label class="btn">Seleccionar fichero
+      <input id="file" type="file" accept=".zip,.csv,.txt" hidden>
+    </label>
+  </section>
+
+  <section class="progress">
+    <div class="bar-bg"><div id="bar" class="bar"></div></div>
+    <div id="status" class="status">Esperando fichero…</div>
+  </section>
+
+  <section id="results" class="results" style="display:none">
+    <div class="card"><span class="k">Sexo</span><span id="sexo" class="v">—</span></div>
+    <div class="card">
+      <h3>Ascendencia continental</h3>
+      <div id="anc-box"></div>
+      <svg id="efa" width="460" height="400" viewBox="0 0 460 400"></svg>
+    </div>
+    <div class="card">
+      <h3>Rasgos genéticos <span class="note">(curiosidad, no médico)</span></h3>
+      <div id="traits"></div>
+    </div>
+    <div class="footer" id="resumen"></div>
+  </section>
+
+  <footer class="foot">
+    Hecho con ❤️ por David Antizar · Método GrafAnc/GRAF-pop (NCBI) · Los datos nunca salen de tu dispositivo.
+  </footer>
+</div>
+<script src="js/jszip.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
