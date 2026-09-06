@@ -33,3 +33,13 @@ header h1{margin:0 0 4px;font-size:1.8rem;color:#1c2733}
 .footer{color:#7a8a99;font-size:.8rem;margin-top:4px}
 .foot{text-align:center;color:#8a99a8;font-size:.8rem;margin-top:34px}
 #efa{max-width:100%;height:auto;display:block;margin-top:8px}
+.map{height:360px;border-radius:10px;overflow:hidden;z-index:0}
+.map-note{color:#7a8a99;font-size:.8rem;margin-top:8px}
+.v-head{font-size:1.1rem;font-weight:700;color:#1c6b3c;margin-bottom:6px}
+.v-intro{font-size:.9rem;color:#3c4a56;margin-bottom:10px}
+.v-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #eef2f6;font-size:.9rem}
+.v-row b{color:#1c2733}
+.v-note{color:#7a8a99;font-size:.8rem;margin-top:10px}
+.t-head{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.t-cat{font-size:.7rem;background:#eef2f6;color:#5b6b7a;padding:2px 8px;border-radius:10px}
+.t-bio{margin-top:6px;color:#5b6b7a;font-size:.85rem;border-top:1px dashed #e2e8ef;padding-top:6px}

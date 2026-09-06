@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DNA Analyzer — Analiza tu ADN crudo (privado, en tu navegador)</title>
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/leaflet.css">
 </head>
 <body>
 <div class="wrap">
@@ -38,7 +39,16 @@
       <svg id="efa" width="460" height="400" viewBox="0 0 460 400"></svg>
     </div>
     <div class="card">
-      <h3>Rasgos genéticos <span class="note">(curiosidad, no médico)</span></h3>
+      <h3>Mapa de tu ascendencia</h3>
+      <div id="map" class="map"></div>
+      <div class="map-note">Marcadores = poblaciones de referencia. Punto verde = tu muestra según el grupo subcontinental.</div>
+    </div>
+    <div class="card">
+      <h3>Verificación del resultado</h3>
+      <div id="verif-box"></div>
+    </div>
+    <div class="card">
+      <h3>Rasgos genéticos y enfermedades <span class="note">(curiosidad, no diagnóstico)</span></h3>
       <div id="traits"></div>
     </div>
     <div class="footer" id="resumen"></div>
@@ -48,7 +58,9 @@
     Hecho con ❤️ por David Antizar · Método GrafAnc/GRAF-pop (NCBI) · Los datos nunca salen de tu dispositivo.
   </footer>
 </div>
+<script src="js/leaflet.js"></script>
 <script src="js/jszip.min.js"></script>
+<script src="js/data.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
