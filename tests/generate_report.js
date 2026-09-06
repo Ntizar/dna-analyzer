@@ -84,7 +84,9 @@ vm.runInContext(dataSrc + '\n' + appSrc, sandbox);
     cats[cat].forEach(t=>L.push('| ' + t.name + ' | ' + t.gene + ' | ' + t.genotype + ' | ' + t.label + ' |'));
     L.push('');
     L.push('**Explicaciones:**');
-    cats[cat].forEach(t=>{ if(t.bio) L.push('- **' + t.name + '** (' + t.gene + '): ' + t.bio + (t.detail? ' ' + t.detail : '')); });
+    cats[cat].forEach(t=>{ if(t.bio) L.push('- **' + t.name + '** (' + t.gene + '): ' + t.bio + (t.detail? ' ' + t.detail : ''));
+      if(t.studies && t.studies.length){ L.push('  📚 *Estudios que lo respaldan:*');
+        t.studies.forEach(s=>L.push('  - ' + s[0] + ' — ' + s[1])); } });
     L.push('');
   }
   L.push('## 5. Lo que NO se puede con este fichero');

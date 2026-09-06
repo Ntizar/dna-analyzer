@@ -51,3 +51,6 @@ header h1{margin:0 0 4px;font-size:1.8rem;color:#1c2733}
 .gd-bar{height:100%;border-radius:6px}
 .gd-val{width:64px;text-align:right;font-size:.75rem;color:#5b6b7a;font-family:monospace}
 .plain{margin-top:10px;background:#eef4fb;border-left:3px solid #2f6fb2;padding:8px 12px;border-radius:6px;font-size:.9rem;color:#3c4a56}
+.t-studies{margin-top:8px;background:#f7f9fc;border-radius:8px;padding:8px 10px}
+.t-studies-title{font-size:.8rem;font-weight:700;color:#2f6fb2;margin-bottom:4px}
+.t-study{font-size:.8rem;color:#5b6b7a;margin-bottom:3px}

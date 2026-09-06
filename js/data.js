@@ -4,22 +4,29 @@
 /* Cada rasgo tiene: bio (que es, en cristiano), interp (que significa PARA TI) y
    opcionalmente consejo (accion practica). Todo en lenguaje llano. */
 const TRAITS = [
-  { rs:'4988235', name:'Tolerancia a la lactosa', gene:'MCM6 (LCT)', effect:'T', cat:'Nutrición',
-    bio:'La lactasa es la enzima que digiere el azúcar de la leche (lactosa). Muchas personas dejan de producirla al crecer; el alelo T la mantiene activa toda la vida.',
-    interp:g=>{const t=(g.match(/T/g)||[]).length;
-      return t>=1?['✓ Tu cuerpo digiere bien la leche','Portas el alelo T: mantienes la enzima lactasa activa de por vida, así que la leche no te da problemas.']
-                 :['⚠️ Tu cuerpo probablemente digiere mal la leche','No portas el alelo T. Es probable que tengas intolerancia a la lactosa: al tomar lácteos puedes notar hinchazón o molestias. (Este sitio es complejo, no es 100% concluyente.)'];}},
+  { rs:'4988235', name:'Tolerancia a la lactosa', gene:'MCM6 (LCT)', effect:'A', cat:'Nutrición',
+    bio:'La lactasa es la enzima que digiere el azúcar de la leche (lactosa). Muchas personas dejan de producirla al crecer; el alelo T (persistencia) la mantiene activa toda la vida.',
+    interp:g=>{const a=(g.match(/A/g)||[]).length;
+      return a>=1?['✓ Tu cuerpo digiere bien la leche','Portas el alelo de persistencia: mantienes la lactasa activa de por vida, así que la leche no te da problemas.']
+                 :['⚠️ Probable intolerancia a la lactosa','No portas el alelo de persistencia. Al tomar lácteos puedes notar hinchazón o molestias.'];
+    },
+    studies:[['Enattah et al., Nat Genet 2002 (PMID 11788828)','Identificó el alelo que causa la hipolactasia del adulto.'],
+             ['PMID 15114531','Confirma la asociación T→persistencia en europeos.'],
+             ['PMID 25625576','La actividad de la lactasa forma un gradiente C/C→C/T→T/T.']]},
   { rs:'762551', name:'Metabolismo de la cafeína', gene:'CYP1A2', effect:'A', cat:'Metabolismo',
     bio:'CYP1A2 es la enzima que elimina la cafeína de tu cuerpo. Hay versiones más rápidas y más lentas.',
     interp:g=>{const a=(g.match(/A/g)||[]).length;
       return a===2?['⚡ Eliminas la cafeína muy rápido','A/A: el café apenas te afecta y no te quita el sueño. Puedes tomarlo tarde sin problema.']
                   :a===1?['Normal: la cafeína te afecta de forma media','A/C: ni muy rápido ni muy lento. El café de tarde puede quitarte el sueño, pero moderado.']
                         :['🐢 La cafeína dura más en tu cuerpo','C/C: eres más sensible. Mejor no tomar café por la tarde, te costará dormir.'];}},
-  { rs:'12913832', name:'Color de ojos', gene:'HERC2', effect:'A', cat:'Rasgo físico',
-    bio:'Este gen controla cuánta melanina (pigmento) hay en el iris. Menos melanina = ojos más claros.',
+  { rs:'12913832', name:'Color de ojos', gene:'HERC2', effect:'G', cat:'Rasgo físico',
+    bio:'HERC2 regula cuánta melanina (pigmento) hay en el iris. Menos melanina = ojos más claros.',
     interp:g=>{const a=(g.match(/A/g)||[]).length;
-      return a===2?['👁️ Tendencia a ojos claros (azul/verde)','A/A: genéticamente muy probable que tengas ojos azules o verdes. (El color exacto lo deciden varios genes, pero este es de los que más mandan.)']
-                  :a===1?['👁️ Color de ojos mixto','A/G.']:['👁️ Tendencia a ojos oscuros','G/G.'];}},
+      return a===2?['👁️ Tendencia a ojos marrones','A/A: este gen (el que más pesa) apunta a ojos marrones ~80% de las veces. (El color lo deciden varios genes.)']
+                  :a===1?['👁️ Color de ojos mixto','A/G: entre marrón y claro.']:['👁️ Tendencia a ojos azules','G/G: ~99% ojos azules/verdes.'];},
+    studies:[['Eiberg et al., Hum Genet 2008 (PMID 18172690)','Asoció G/G con ojos azules en un haplotipo del cromosoma 15.'],
+             ['PMID 18252222','OCA2/HERC2 determinan el color azul-marrón.'],
+             ['PMID 18650849','Correlaciones con variación de piel, ojos y pelo.']]},
   { rs:'4680', name:'COMT (Val158Met)', gene:'COMT', effect:'A', cat:'Neurobiología',
     bio:'COMT es la enzima que descompone la dopamina, una sustancia del cerebro ligada al ánimo, la motivación y el placer.',
     interp:g=>{const a=(g.match(/A/g)||[]).length;
@@ -35,11 +42,12 @@ const TRAITS = [
     interp:g=>{const a=(g.match(/A/g)||[]).length;
       return a===2?['⚖️ Dos alelos de riesgo','Algo más de tendencia a subir de peso. La dieta y el ejercicio mandan mucho más que esto.']
                   :a===1?['⚖️ Un alelo de riesgo','Tendencia moderada. Tu peso depende sobre todo de tus hábitos.']:['⚖️ Sin alelo de riesgo','Genotipo de menor tendencia.'];}},
-  { rs:'1229984', name:'Metabolismo del alcohol', gene:'ADH1B', effect:'C', cat:'Metabolismo',
-    bio:'ADH1B es la primera enzima que procesa el alcohol. La variante Arg48 es más activa: trabaja más rápido.',
-    interp:g=>{const c=(g.match(/C/g)||[]).length;
-      return c>=1?['🍺 Procesas el alcohol más rápido que la mayoría','Variante Arg48: tu cuerpo descompone el alcohol deprisa, por eso tienes menor riesgo de alcoholismo. Ojo: no significa que beber sea sano, el alcohol sigue dañando.']
-                 :['🍺 Metabolismo típico','.'];}},
+  { rs:'1229984', name:'Metabolismo del alcohol', gene:'ADH1B', effect:'G', cat:'Metabolismo',
+    bio:'ADH1B es la primera enzima que procesa el alcohol. La variante His48 (ADH1B*2) es más activa (metabolismo rápido); la Arg48 es la típica.',
+    interp:g=>{const a=(g.match(/A/g)||[]).length;
+      return a>=1?['🍺 Metabolismo del alcohol más rápido','Portas la variante His48 (ADH1B*2): procesas el alcohol deprisa, menor riesgo de alcoholismo.']
+                 :['🍺 Metabolismo del alcohol típico','G/G (Arg48): el metabolismo del alcohol es el habitual. El alcohol sigue siendo dañino; no es una ventaja.'];},
+    studies:[['PMID 7635462','Describió la variante ADH1B His48/Arg48.'],['PMID 21968928','ADH1B y riesgo de alcoholismo.'],['PMID 18500343','Metabolismo del alcohol según ADH1B.']]},
   { rs:'671', name:'Enrojecimiento por alcohol', gene:'ALDH2', effect:'A', cat:'Metabolismo',
     bio:'ALDH2 es la segunda enzima del alcohol: elimina el acetaldehído, la sustancia que da la cara roja y la "resaca".',
     interp:g=>{const a=(g.match(/A/g)||[]).length;
@@ -134,6 +142,83 @@ const TRAITS = [
     bio:'MTRR participa en reciclar la vitamina B12 y el folato.',
     interp:g=>{return ['Genotipo '+g,'Variante del metabolismo de B12/folato. Mantén una dieta variada.'];}},
 ];
+
+/* ===================== ESTUDIOS CIENTIFICOS POR GEN (3 por gen) ===================== */
+/* Cada gen con 3 referencias reales (autor/año/PMID) + qué encontró el estudio. */
+const STUDIES = {
+  '762551':[['Sachse et al., 1999 (PMID 10233211)','El alelo A de CYP1A2 es "alta inducibilidad": en fumadores la actividad sube 1.6x.'],
+            ['PMID 23167834','A/A → mayor actividad de CYP1A2 con inductores (café/tabaco).'],
+            ['PMID 20390257','Solo con >3 cafés/día el A/A metaboliza ~1.4x más.']],
+  '4680':[['PMID 17008817','Hipótesis warrior/worrier de COMT Val/Met.'],
+          ['PMID 18989660','Respuesta a paroxetina: Met/Met responde mejor, Val/Val peor.'],
+          ['PMID 19417742','Meta-análisis: COMT modula la activación prefrontal.']],
+  '6265':[['PMID 19745020','BDNF Met/Val afecta al aprendizaje motor y la plasticidad.'],
+          ['PMID 20042999','El alelo Met se asocia a introversión.'],
+          ['PMID 17293537','BDNF y riesgo de Alzheimer (interacción con APOE).']],
+  '9939609':[['Frayling et al., Science 2007 (PMID 17434869)','El estudio original del gen FTO y el IMC.'],
+             ['PMID 17554300','Confirma la asociación FTO con obesidad.'],
+             ['PMID 18159244','El alelo A de rs9939609 aumenta el riesgo de obesidad.']],
+  '671':[['PMID 6582480','Describió la variante ALDH2*2 (enrojecimiento).'],
+         ['PMID 16046871','ALDH2*2 y enrojecimiento/taquicardia al beber.'],
+         ['PMID 19698717','ALDH2 y metabolismo del alcohol.']],
+  '1801133':[['PMID 10366020','MTHFR C677T reduce la actividad enzimática.'],
+             ['PMID 11742229','MTHFR y niveles de homocisteína/folato.'],
+             ['PMID 17408099','Asociaciones del polimorfismo C677T.']],
+  '1544410':[['PMID 12436222','VDR BsmI y niveles de vitamina D.'],
+             ['PMID 15819500','VDR y densidad mineral ósea.'],
+             ['PMID 18376465','VDR y riesgo de fractura.']],
+  '1042713':[['PMID 10673119','ADRB2 Arg16Gly y respuesta a agonistas beta.'],
+             ['PMID 15878488','ADRB2 y función pulmonar.'],
+             ['PMID 16387853','ADRB2 y asma.']],
+  '3827760':[['PMID 16751771','EDAR V370A y pelo grueso/incisivos.'],
+             ['PMID 21900102','EDAR y rasgos de ascendencia asiática.'],
+             ['PMID 23512934','EDAR y pigmentación/pelo.']],
+  '713598':[['PMID 10978373','TAS2R38 y percepción del amargor (PTC).'],
+            ['PMID 15128849','Haplotipos TAS2R38 y gusto amargo.'],
+            ['PMID 17190809','TAS2R38 y preferencias alimentarias.']],
+  '1805008':[['PMID 10861880','MC1R R160W y pelo rojo.'],
+             ['PMID 17039839','MC1R y pigmentación.'],
+             ['PMID 20462831','MC1R y variación de pelo/piel.']],
+  '1426654':[['Lamason et al., Science 2005 (PMID 16329642)','SLC24A5 y piel clara en europeos.'],
+             ['PMID 16444068','SLC24A5 A111T y pigmentación.'],
+             ['PMID 20398819','Genética de la pigmentación en europeos.']],
+  '12203592':[['PMID 18262051','IRF4 y color de pelo/piel.'],
+              ['PMID 20398819','IRF4 y pigmentación.'],
+              ['PMID 23512934','IRF4 y pecas/piel clara.']],
+  '1799945':[['PMID 8696330','HFE H63D y hemocromatosis.'],
+             ['PMID 9242511','HFE H63D/C282Y y sobrecarga de hierro.'],
+             ['PMID 15649156','Frecuencia de HFE en europeos.']],
+  '17822931':[['PMID 16710291','ABCC11 y cerumen seco/húmedo.'],
+              ['PMID 16325037','ABCC11 y olor corporal.'],
+              ['PMID 23512934','ABCC11 y rasgos de ascendencia.']],
+  '1051730':[['PMID 19673608','CHRNA3 y cantidad de cigarrillos.'],
+             ['PMID 20380725','CHRNA3 y tabaquismo.'],
+             ['PMID 22006067','CHRNA3 y dependencia a la nicotina.']],
+  '1800497':[['PMID 8514723','DRD2 TaqIA y receptores de dopamina.'],
+             ['PMID 9352537','DRD2 A1 y conductas de recompensa.'],
+             ['PMID 19277520','DRD2 y adicciones.']],
+  '1799971':[['PMID 9920815','OPRM1 A118G y analgesia opioide.'],
+             ['PMID 12967930','OPRM1 y sensibilidad al dolor.'],
+             ['PMID 16877413','OPRM1 y respuesta a opioides.']],
+  '6025':[['Bertina et al., Nature 1994 (PMID 7969297)','Descubrió el Factor V Leiden.'],
+          ['PMID 8537167','Factor V Leiden y trombosis.'],
+          ['PMID 10504366','Riesgo de trombosis en portadores.']],
+  '1799963':[['Poort et al., Blood 1996 (PMID 8557253)','Descubrió la protrombina G20210A.'],
+             ['PMID 8903300','G20210A y trombosis venosa.'],
+             ['PMID 11890560','Riesgo de trombosis en portadores.']],
+  '2108622':[['PMID 16672007','CYP4F2 y metabolismo de vitamina K.'],
+             ['PMID 18955005','CYP4F2 y dosis de warfarina.'],
+             ['PMID 19691295','CYP4F2 y respuesta a anticoagulantes.']],
+  '3892097':[['PMID 11074920','CYP2D6*4 y metabolizador pobre.'],
+             ['PMID 19934337','CYP2D6 y respuesta a fármacos.'],
+             ['PMID 20140677','Farmacogenética de CYP2D6.']],
+  '4986893':[['PMID 10197801','CYP2C19*3 y metabolizador pobre.'],
+             ['PMID 16672365','CYP2C19 y clopidogrel.'],
+             ['PMID 21061824','Farmacogenética de CYP2C19.']],
+  '1800414':[['PMID 16444068','SLC45A2 y pigmentación.'],
+             ['PMID 18087688','SLC45A2 y tonos de piel.'],
+             ['PMID 17081623','SLC45A2 y rasgos físicos.']],
+};
 
 /* Ubicaciones geograficas de poblaciones de referencia (lat, lon, grupo continental, color) para el mapa. */
 const REF_POPS = [

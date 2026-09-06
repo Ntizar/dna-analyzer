@@ -264,7 +264,7 @@ function computeTraits(genoMap){
     if(!rec || !/^[ACGT]{1,2}$/.test(rec.gt)) continue;
     const g=rec.gt.toUpperCase();
     const [label,detail]=t.interp(g);
-    out.push({name:t.name, gene:t.gene, cat:t.cat||'', bio:t.bio||'', genotype:g, label, detail});
+    out.push({name:t.name, gene:t.gene, cat:t.cat||'', bio:t.bio||'', genotype:g, label, detail, studies:STUDIES[t.rs]||[]});
   }
   return out;
 }
@@ -368,7 +368,9 @@ function render(parsed, anc, traits, verif){
       '<div class="t-geno">Genotipo: <b>'+t.genotype+'</b></div>'+
       '<div class="t-label">'+t.label+'</div>'+
       (t.detail?'<div class="t-detail">'+t.detail+'</div>':'')+
-      (t.bio?'<div class="t-bio">🧬 <i>'+t.bio+'</i></div>':'');
+      (t.bio?'<div class="t-bio">🧬 <i>'+t.bio+'</i></div>':'')+
+      (t.studies && t.studies.length?'<div class="t-studies"><div class="t-studies-title">📚 Estudios que lo respaldan:</div>'+
+        t.studies.map(s=>'<div class="t-study">• <b>'+s[0]+'</b> — '+s[1]+'</div>').join('')+'</div>':'');
     tEl.appendChild(d); });
   $('#resumen').textContent='SNP procesados: '+parsed.geno.size+' · Datos 100% en tu navegador, nada se guarda.';
 }
