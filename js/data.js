@@ -154,3 +154,16 @@ const REF_POPS = [
   { name:'Pakistán', lat:30.0, lon:70.0, grp:'SAS', color:'#7a4fb2' },
   { name:'México / LATAM (MXL)', lat:19.4, lon:-99.1, grp:'AMR', color:'#2f8f6b' },
 ];
+
+/* Zonas / regiones geograficas para el mapa (nombre, centro, radio en grados, color, grupo). */
+const REGIONS = [
+  { name:'Península Ibérica', lat:40.4, lon:-3.7, r:3.6, color:'#2f6fb2', grp:'EUR' },
+  { name:'Europa Occidental', lat:47.5, lon:2.5, r:5.0, color:'#3a7fc0', grp:'EUR' },
+  { name:'Italia / Sur de Europa', lat:42.0, lon:12.5, r:3.0, color:'#2f6fb2', grp:'EUR' },
+  { name:'Norte de Europa', lat:55.5, lon:12.0, r:6.0, color:'#5a8fca', grp:'EUR' },
+  { name:'Norte de África', lat:32.0, lon:-5.0, r:4.0, color:'#a07c2b', grp:'MEN' },
+  { name:'África Occidental', lat:8.0, lon:-5.0, r:5.0, color:'#8a5a2b', grp:'AFR' },
+  { name:'Este de Asia', lat:35.0, lon:110.0, r:9.0, color:'#b23f3f', grp:'EAS' },
+  { name:'Sur de Asia', lat:22.0, lon:78.0, r:7.0, color:'#7a4fb2', grp:'SAS' },
+  { name:'Latinoamérica', lat:19.0, lon:-99.0, r:6.0, color:'#2f8f6b', grp:'AMR' },
+];

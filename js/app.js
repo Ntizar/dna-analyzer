@@ -433,20 +433,48 @@ function samplePos(id){
     600:[19,-99],700:[-5,150],800:[40,-10]};
   return m[id]||[46,10];
 }
+function sampleRegion(id){
+  const m={303:'Europa Occidental',304:'Península Ibérica',302:'Norte de Europa',301:'Finlandia',
+    305:'Norte de Europa',306:'Italia / Sur de Europa',307:'Italia / Sur de Europa',308:'Europa Occidental',
+    201:'Norte de África',202:'Norte de África',203:'Norte de África',100:'África Occidental',
+    101:'África Occidental',102:'África Occidental',500:'Este de Asia',400:'Sur de Asia',600:'Latinoamérica',700:'Este de Asia'};
+  return m[id]||'Europa Occidental';
+}
 function drawMap(anc){
   const el=$('#map'); if(!el || typeof L==='undefined') return;
   if(window._map){ window._map.remove(); }
   const map=L.map('map',{scrollWheelZoom:false}).setView([44,6],4);
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(map);
+  // Zonas geograficas
+  REGIONS.forEach(z=>{
+    L.circle([z.lat,z.lon],{radius:z.r*100000,color:z.color,weight:1.5,fillColor:z.color,fillOpacity:.18})
+      .addTo(map).bindTooltip('<b>'+z.name+'</b> ('+z.grp+')',{permanent:false});
+  });
+  // Poblaciones de referencia (puntos dentro de las zonas)
   REF_POPS.forEach(p=>{
     L.circleMarker([p.lat,p.lon],{color:p.color,radius:5,fillColor:p.color,fillOpacity:.85}).addTo(map)
       .bindPopup('<b>'+p.name+'</b><br>Referencia '+p.grp);
   });
+  // Zona de la muestra (destacada)
+  let sampleLabel='';
   if(anc){
-    const pos=samplePos(anc.ancGroupId);
-    L.circleMarker(pos,{color:'#0f9d58',radius:14,fillColor:'#0f9d58',fillOpacity:.5}).addTo(map)
-      .bindPopup('<b>Tu muestra</b><br>'+groupName(anc.ancGroupId)+' (grupo '+anc.ancGroupId+')');
+    const rn=sampleRegion(anc.ancGroupId);
+    const reg=REGIONS.find(z=>z.name===rn)||REGIONS[1];
+    const pos=[reg.lat,reg.lon];
+    L.circle(pos,{radius:(reg.r+1.2)*100000,color:'#0f9d58',weight:2.5,dashArray:'6,4',fillColor:'#0f9d58',fillOpacity:.12})
+      .addTo(map).bindTooltip('<b>Tu zona: '+rn+'</b><br>'+groupName(anc.ancGroupId),{permanent:false});
+    sampleLabel='Tu muestra se sitúa en la zona de <b>'+rn+'</b>.';
   }
+  // Texto en lenguaje natural
+  const cap=document.createElement('div'); cap.className='map-note';
+  cap.innerHTML = sampleLabel ? sampleLabel+' ' : '';
+  if(anc){
+    cap.innerHTML += 'Esto quiere decir que tus antepasados recientes eran casi con seguridad de <b>'+sampleRegion(anc.ancGroupId)+'</b> (grupo '+anc.ancGroupId+').';
+  }
+  const holder=el.parentNode;
+  holder.querySelectorAll('.map-note').forEach(n=>n.remove());
+  cap.className='map-note';
+  holder.appendChild(cap);
   window._map=map;
 }
 

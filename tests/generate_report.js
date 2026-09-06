@@ -54,6 +54,13 @@ vm.runInContext(dataSrc + '\n' + appSrc, sandbox);
   L.push('**Distancia genética a poblaciones de referencia** (menor = más cercano):');
   const pops=['Europea','Africana','Este-asiática','Nigeria','Ghana'];
   pops.forEach((p,i)=>L.push('  - ' + p + ': ' + anc.popMean[i].toFixed(4)));
+  const regionMap={303:'Europa Occidental',304:'Península Ibérica',302:'Norte de Europa',301:'Finlandia',
+    305:'Norte de Europa',306:'Italia / Sur de Europa',307:'Italia / Sur de Europa',308:'Europa Occidental',
+    201:'Norte de África',202:'Norte de África',203:'Norte de África',100:'África Occidental',
+    101:'África Occidental',102:'África Occidental',500:'Este de Asia',400:'Sur de Asia',600:'Latinoamérica',700:'Este de Asia'};
+  const region=regionMap[anc.ancGroupId]||'Europa Occidental';
+  L.push('');
+  L.push('**🗺️ Zona geográfica (en lenguaje natural):** tu ascendencia se concentra en **' + region + '**. En la práctica, esto significa que tus antepasados de las últimas generaciones eran casi con total seguridad de esa zona de Europa.');
   L.push('');
   L.push('## 3. ✅ Verificación de que el resultado es cierto');
   L.push('| Métrica | Valor | Qué demuestra |');
