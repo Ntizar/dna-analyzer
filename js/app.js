@@ -219,7 +219,7 @@ function computeAncestry(genoMap){
   const ePct=ej*100/tot, fPct=fj*100/tot, aPct=aj*100/tot;
   const ancGroupId = assignGroup(aPct,fPct,gd1,gd2,gd3,subPopScores);
   return {numGeno, hetRate: het/numGeno, gd1, gd2, gd3, ePct, fPct, aPct,
-          rawPe:b.eWt*100, rawPf:b.fWt*100, rawPa:b.aWt*100, ancGroupId, subPopScores};
+          rawPe:b.eWt*100, rawPf:b.fWt*100, rawPa:b.aWt*100, ancGroupId, subPopScores, popMean};
 }
 
 function assignGroup(aPct,fPct,gd1,gd2,gd3,sp){
@@ -338,6 +338,7 @@ function render(parsed, anc, traits, verif){
       ' · SNP '+anc.numGeno+' · Heterocigosidad '+(anc.hetRate*100).toFixed(1)+'%</div>'+
       '<div class="group">Grupo subcontinental: <b>'+anc.ancGroupId+'</b> · '+groupName(anc.ancGroupId)+'</div>';
     drawEFAtriangle(anc);
+    drawGDChart(anc);
   }
   // Mapa geografico
   drawMap(anc);
@@ -392,6 +393,24 @@ function drawEFAtriangle(anc){
   }
   dot(E,'#2f6fb2',8,'Europeo',6,16); dot(F,'#8a5a2b',8,'Africano',6,16); dot(A,'#b23f3f',8,'E.Asiatico',6,16);
   dot(S,'#0f9d58',12,'Tu muestra',-30,26);
+}
+function drawGDChart(anc){
+  const el=$('#gd-chart'); if(!el) return;
+  el.innerHTML='';
+  if(!anc || !anc.popMean){ return; }
+  const pops=['Europea','Africana','Este-asiática','Nigeria','Ghana'];
+  const vals=anc.popMean; const max=Math.max(...vals)*1.08;
+  const colors=['#2f6fb2','#8a5a2b','#b23f3f','#8a5a2b','#8a5a2b'];
+  const note=document.createElement('div'); note.className='gd-note';
+  note.textContent='Distancia genética a poblaciones de referencia (menor = más cercano):'; el.appendChild(note);
+  pops.forEach((p,i)=>{
+    const w=Math.max(2,(vals[i]/max)*100);
+    const row=document.createElement('div'); row.className='gd-row';
+    row.innerHTML='<span class="gd-label">'+p+'</span>'+
+      '<div class="gd-track"><div class="gd-bar" style="width:'+w.toFixed(1)+'%;background:'+colors[i]+'"></div></div>'+
+      '<span class="gd-val">'+vals[i].toFixed(4)+'</span>';
+    el.appendChild(row);
+  });
 }
 
 /* ============================ MAPA ============================ */
