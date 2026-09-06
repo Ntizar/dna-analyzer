@@ -336,7 +336,8 @@ function render(parsed, anc, traits, verif){
       '<span style="color:#b23f3f">Este Asiática '+anc.aPct.toFixed(2)+'%</span></div>'+
       '<div class="meta">GD1 '+anc.gd1.toFixed(4)+' · GD2 '+anc.gd2.toFixed(4)+' · GD3 '+anc.gd3.toFixed(4)+
       ' · SNP '+anc.numGeno+' · Heterocigosidad '+(anc.hetRate*100).toFixed(1)+'%</div>'+
-      '<div class="group">Grupo subcontinental: <b>'+anc.ancGroupId+'</b> · '+groupName(anc.ancGroupId)+'</div>';
+      '<div class="group">Grupo subcontinental: <b>'+anc.ancGroupId+'</b> · '+groupName(anc.ancGroupId)+'</div>'+
+      '<div class="plain">🗣️ <b>En cristiano:</b> '+ancestryPlain(anc)+'</div>';
     drawEFAtriangle(anc);
     drawGDChart(anc);
   }
@@ -374,6 +375,18 @@ function render(parsed, anc, traits, verif){
 function groupName(id){
   const m={300:'Europeo',303:'Europa Occidental',304:'Europa Meridional',302:'Norte de Europa',301:'Finlandia',305:'Nordeste de Europa',306:'Sudeste de Europa',307:'Balcanes',308:'Otra Europa',100:'Africano',101:'Nigeria',102:'Africa Occidental',103:'Africa Central',104:'Kenya',105:'Africa Meridional',106:'Africa Nororiental',107:'Afroamericano',108:'Otra Africa',200:'MEN',201:'Norte de Africa',202:'Oriente Medio 2',203:'Oriente Medio 1',400:'Sur de Asia',401:'India',402:'Gujarati',403:'Pakistan',404:'Sri Lanka',405:'Bangladesh',500:'Este de Asia',501:'Ryukyu',502:'Japon',503:'Corea',504:'Norte de Asia',505:'Norte China 1',506:'Norte China 2',507:'Sur China 1',508:'Sur China 2',509:'Sudeste Asiatico',510:'Tailandia',511:'Otra Asia Oriental',600:'Americano',601:'Latinoam. 1',602:'Latinoam. 2',603:'Nativo Americano',700:'Oceania',800:'Multiascendencia'};
   return m[id]||'';
+}
+function ancestryPlain(anc){
+  const e=anc.ePct;
+  let msg;
+  if(e>95) msg='Casi toda tu ascendencia reciente es europea, con un pelín de mezcla africana/asiática.';
+  else if(e>60) msg='La mayor parte de tu ascendencia es europea, con algo de mezcla de otras regiones.';
+  else msg='Tu ascendencia es una mezcla de varias regiones del mundo.';
+  if(anc.ancGroupId===303) msg+=' Genéticamente te sitúas en Europa Occidental, justo en el límite con el sur (España, Italia).';
+  else if(anc.ancGroupId===304) msg+=' Te sitúas en el sur de Europa (España, Portugal, Italia).';
+  else if(anc.ancGroupId===302) msg+=' Te sitúas en el norte de Europa.';
+  msg+=' En la práctica, esto significa que tus antepasados de las últimas generaciones eran casi con total seguridad europeos.';
+  return msg;
 }
 function drawEFAtriangle(anc){
   const svg=$('#efa'); svg.innerHTML='';
